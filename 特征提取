@@ -1,0 +1,52 @@
+//map存储相关信息，进行判断
+#include <iostream>
+#include <stdio.h>
+#include <string>
+#include <algorithm>
+#include <string.h>
+#include <map>
+#include <vector>
+using namespace std;
+map<pair<int,int>,vector<int> >jishu;
+int main()
+{
+    int n;
+    scanf("%d",&n);
+    while(n--)
+    {
+        int m;
+        scanf("%d",&m);
+        jishu.clear();
+        for(int i=0;i<m;i++)
+        {
+            int q;
+            scanf("%d",&q);
+            for(int j=0;j<q;j++)
+            {
+                int xx,yy;
+                scanf("%d%d",&xx,&yy);
+                jishu[make_pair(xx,yy)].push_back(i);
+            }
+        }
+        int ans=1;
+        for(auto i:jishu)
+        {
+            int sz=i.second.size();
+            int sz1=1;
+            for(int j=1;j<sz;j++)
+            {
+                if(i.second[j]==i.second[j-1]+1)
+                {
+                    sz1=sz1+1;
+                }
+                else 
+                {
+                    ans=max(sz1,ans);
+                    sz1=1;
+                }
+            }
+            ans=max(sz1,ans);
+        }
+        printf("%d\n",ans);
+    }
+}
