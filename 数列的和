@@ -1,0 +1,23 @@
+//模拟
+#include<iostream>
+#include<algorithm>
+#include<string>
+#include<vector>
+#include<math.h>
+#include<string.h>
+using namespace std;
+int main()
+{
+    int m;
+    double n;
+    while(~scanf("%lf%d",&n,&m))
+    {
+        double ans=0;
+        for(int i=1;i<=m;i++)
+        {
+            ans+=n;
+            n=sqrt(n);
+        }
+        printf("%.2f\n",ans);
+    }
+}
