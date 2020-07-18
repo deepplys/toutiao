@@ -1,0 +1,123 @@
+//模拟
+#include<iostream>
+#include<algorithm>
+#include<string>
+#include<vector>
+#include<string.h>
+using namespace std;
+int p[15];
+int pr[15];
+int jishu[10];
+int main()
+{
+    for(int i=0;i<13;i++)
+    {
+        scanf("%d",&p[i]);
+        //printf("%d-\n",p[i]);
+    }
+    vector<int>ans;
+    for(int i=1;i<=9;i++)
+    {
+        for(int j=0;j<13;j++)
+        {
+            pr[j]=p[j];
+        }
+        pr[13]=i;
+        sort(pr,pr+14);
+        memset(jishu,0,sizeof(jishu));
+        for(int j=0;j<14;j++)
+        {
+            jishu[pr[j]]=jishu[pr[j]]+1;
+            
+        }
+        int fi=0;
+        for(int j=1;j<=9;j++)
+        {
+            if(jishu[j]>4)
+            {
+                fi=1;
+                break;
+            }
+        
+        }
+        if(fi==1)
+        {
+            continue;
+        }
+        int qq[10];
+        int fl=0;
+        for(int j=1;j<=9;j++)
+        {
+            if(jishu[j]>=2)
+            {
+                for(int k=1;k<=9;k++)
+                {
+                    if(k==j)
+                    {
+                        qq[k]=jishu[k]-2;
+                    }
+                    else 
+                    {
+                        qq[k]=jishu[k];
+                    }
+                    
+                }
+                int fi=0;
+                for(int k=1;k<=9;k++)
+                {
+                    if(qq[k]>=3)
+                    {
+                        qq[k]-=3;
+                        k--;
+                        continue;
+                    }
+                    else if(qq[k]>0)
+                    {
+                        if(k+2<=9&&qq[k+1]>=qq[k]&&qq[k+2]>=qq[k])
+                        {
+                            qq[k+1]-=qq[k];
+                            qq[k+2]-=qq[k];
+                            qq[k]=0;
+                        }
+                    }
+                }
+                for(int k=1;k<=9;k++)
+                {
+                    if(qq[k]!=0)
+                    {
+                        fi=1;
+                    }
+
+                }
+                if(fi==0)
+                {
+                    fl=1;
+                    break;
+                }
+            }
+        }
+        if(fl)
+        {
+            ans.push_back(i);
+        }
+    }
+    if(ans.size()==0)
+    {
+        printf("0\n");
+    }
+    else 
+    {
+        int len=ans.size();
+        for(int i=0;i<len;i++)
+        {
+            if(i!=len-1)
+            {
+                printf("%d ",ans[i]);
+            }
+            else 
+            {
+                printf("%d\n",ans[i]);
+            }
+        }
+    }
+}
