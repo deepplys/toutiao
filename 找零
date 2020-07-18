@@ -1,0 +1,30 @@
+//简单完全背包
+//完全背包，正向跑背包容量，最大值全部初始为0，最小值初始化为inf
+#include<iostream>
+#include<string.h>
+#include<string>
+#include<algorithm>
+#include<queue>
+
+using namespace std;
+const int inf=0x3f3f3f;
+int dp[1035];
+int v[4]={1,4,16,64};
+int main()
+{
+    int n;
+    while(~scanf("%d",&n))
+    {
+        memset(dp,inf,sizeof(dp));
+        n=1024-n;
+        dp[0]=0;
+        for(int i=0;i<4;i++)
+        {
+            for(int j=v[i];j<=n;j++)
+            {
+                dp[j]=min(dp[j-v[i]]+1,dp[j]);
+            }
+        }
+        printf("%d\n",dp[n]);
+    }
+}
