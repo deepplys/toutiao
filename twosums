@@ -1,0 +1,29 @@
+class Solution {
+public:
+    /**
+     * 
+     * @param numbers int整型vector 
+     * @param target int整型 
+     * @return int整型vector
+     */
+    vector<int> twoSum(vector<int>& numbers, int target) {
+        // write code here
+        map<int,int>qq;
+        int sz=numbers.size();
+        for(int i=0;i<sz;i++)
+        {
+            if(qq.count(target-numbers[i])==0)
+            {
+                qq[numbers[i]]=i+1;
+            }
+            else 
+            {
+                return vector<int>{qq[target-numbers[i]],i+1};
+            }
+        }
+    }
+};
+/*
+标解
+哈希 map保存时间复杂度O（n）空间复杂度O（n）
+*/
