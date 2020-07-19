@@ -1,0 +1,45 @@
+/**
+ * struct TreeNode {
+ *	int val;
+ *	struct TreeNode *left;
+ *	struct TreeNode *right;
+ * };
+ */
+
+class Solution {
+public:
+    /**
+     * 
+     * @param root TreeNode类 
+     * @return int整型vector
+     */
+    vector<int> preorderTraversal(TreeNode* root) {
+        // write code here
+        stack<TreeNode*>st;
+        st.push(root);
+        vector<int>ans;
+        if(root==NULL)
+        {
+            return ans;
+        }
+        while(!st.empty())
+        {
+            TreeNode* ne=st.top();
+            ans.push_back(ne->val);
+            st.pop();
+            if(ne->right!=NULL)
+            {
+                st.push(ne->right);
+            }
+            if(ne->left!=NULL)
+            {
+                st.push(ne->left);
+            }
+            
+        }
+        return ans;
+    }
+};
+/*
+非递归栈模拟先序遍历
+*/
