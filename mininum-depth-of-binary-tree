@@ -1,0 +1,43 @@
+/**
+ * struct TreeNode {
+ *	int val;
+ *	struct TreeNode *left;
+ *	struct TreeNode *right;
+ * };
+ */
+
+class Solution {
+public:
+    /**
+     * 
+     * @param root TreeNode类 
+     * @return int整型
+     */
+    int sz=1000000;
+    void dfs(int depth,TreeNode* rot)
+    {
+        if(rot->left==NULL&&rot->right==NULL)
+        {
+            sz=min(depth,sz);
+            return ;
+        }
+        if(rot->left!=NULL)
+        dfs(depth+1,rot->left);
+        if(rot->right!=NULL)
+        dfs(depth+1,rot->right);
+        return ;
+    }
+    int run(TreeNode* root) {
+        // write code here
+        if(root==NULL)
+        {
+            return 0;
+        }
+        sz=100000000;
+        dfs(1,root);
+        return sz;
+    }
+};
+/*
+树的遍历
+*/
