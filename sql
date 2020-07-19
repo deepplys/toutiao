@@ -16,6 +16,13 @@ ON a.emp_no=b.emp_no
 WHERE a.to_date== '9999-01-01' and b.to_date =='9999-01-01'
 ORDER BY a.emp_no 
 
+select a.emp_no,b.salary
+from employees a
+inner join salaries b
+on a.emp_no=b.emp_no and a.hire_date=b.from_date
+group by a.emp_no
+order by a.emp_no desc
+
 
 LIMIT m,n : 表示从第m+1条开始，取n条数据；
 LIMIT n ： 表示从第0条开始，取n条数据，是limit(0,n)的缩写。
@@ -23,3 +30,32 @@ LIMIT n ： 表示从第0条开始，取n条数据，是limit(0,n)的缩写。
 SELECT * FROM employees ORDER BY hire_date DESC LIMIT 0,1;
 
 GROUP BY M ORDER BY DESC
+
+gruop 语句判断条件为having ... 
+
+distinct 去掉重复
+
+select a.dept_no,a.emp_no,b.salary
+from dept_manager a
+inner join salaries b
+on a.emp_no=b.emp_no
+where a.to_date='9999-01-01' and b.to_date='9999-01-01'
+
+not in 不在
+
+select a.emp_no
+from employees a
+where a.emp_no not in 
+(
+    select b.emp_no
+    from dept_manager b
+)
+
+select a.emp_no
+from employees a
+left join dept_manager b 
+on a.emp_no=b.emp_no
+where b.dept_no isnull
+
+
+
