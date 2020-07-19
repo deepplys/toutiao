@@ -1,0 +1,89 @@
+/**
+ * struct Point {
+ *	int x;
+ *	int y;
+ * };
+ */
+
+class Solution {
+public:
+    /**
+     * 
+     * @param points Point类vector 
+     * @return int整型
+     */
+    int maxPoints(vector<Point>& points) {
+        // write code here
+        int len=points.size();
+        int sz=0;
+        if(len<=2)
+        {
+            return len;
+        }
+        for(int i=0;i<len;i++)
+        {
+            for(int j=i+1;j<len;j++)
+            {
+                int q=2;
+                if(points[i].x==points[j].x&&points[i].y==points[j].y)
+                {
+                    continue;
+                }
+                for(int k=0;k<len;k++)
+                {
+                    if(i==k||j==k)
+                    {
+                        continue;
+                    }
+                    if((1ll*points[i].y-points[j].y)*(points[i].x-points[k].x)==(1ll*points[i].y-points[k].y)*(points[i].x-points[j].x))
+                    {
+                        q++;
+                    }
+                }
+                sz=max(q,sz);
+            }
+        }
+        return sz;
+    }
+};
+/*
+标解
+使用map将复杂度降至n2
+class Solution {
+public:
+     int maxPoints(vector<Point>& points)
+    {
+       int len = points.size();
+       if(len< 2)
+            return len;
+       int res = 0;
+       for(int i=0;i<len;i++)
+       {
+           map<pair<int,int>,int> slopeMap;
+           int duplicates = 1;         // 自身重叠初始化为1
+           for(int j=i+1;j<len;j++)
+           {
+               // 重合
+               if(points[i].x == points[j].x  && points[i].y ==  points[j].y)
+               {
+                   duplicates++;
+                   continue;
+               }
+               // 斜率不适用float作为键，精度损失，使用除以最小公约数后的pair作为键
+               int dix = points[j].x - points[i].x;
+               int diy = points[j].y - points[i].y;
+               int maxD = gcd(dix,diy);
+               slopeMap[{dix/maxD,diy/maxD}] ++;
+           }
+           res = max(res,duplicates);
+           for(auto it=slopeMap.begin();it!=slopeMap.end();it++)
+                res = max(res,it->second + duplicates);
+       }
+       return res;
+    }
+    int gcd(int a, int b)
+    {
+        return (b == 0) ? a : gcd(b, a % b);
+    }
+};
+*/
