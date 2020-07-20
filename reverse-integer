@@ -1,0 +1,30 @@
+class Solution {
+public:
+    /**
+     * 
+     * @param x int整型 
+     * @return int整型
+     */
+    int reverse(int x) {
+        // write code here
+        int y=x;
+        long long int ans=0;
+        while(y!=0)
+        {
+            ans*=10;
+            ans+=y%10;
+            y/=10;
+        }
+        if(ans>INT_MAX||ans<INT_MIN)
+        {
+            return 0;
+        }
+        else 
+        {
+            return ans;
+        }
+    }
+};
+/*
+判溢出
+*/
