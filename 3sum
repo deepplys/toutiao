@@ -1,0 +1,90 @@
+class Solution {
+public:
+    vector<vector<int> > threeSum(vector<int> &num) {
+        map<int,vector<pair<int,int>> >ans;
+        ans.clear();
+        int len=num.size();
+        for(int i=0;i<len;i++)
+        {
+            for(int j=i+1;j<len;j++)
+            {
+                ans[num[i]+num[j]].push_back(make_pair(i,j));
+            }
+        }
+        vector<vector<int> > ans1;
+        set<tuple<int,int,int> >qq;
+        for(int i=0;i<len;i++)
+        {
+            if(ans.count(-num[i])==1)
+            {
+                for(int j=0;j<ans[-num[i]].size();j++)
+                {
+                    if(ans[-num[i]][j].first!=i&&ans[-num[i]][j].second!=i)
+                    {
+                        int a[3]={num[i],num[ans[-num[i]][j].first],num[ans[-num[i]][j].second]};
+                        sort(a,a+3);
+                        qq.insert(make_tuple(a[0],a[1],a[2]));
+                    }
+                }
+            }
+        }
+        for(auto i:qq)
+        {
+            ans1.push_back(vector<int>{get<0>(i),get<1>(i),get<2>(i)});
+        }
+        return ans1;
+    }
+};
+/*
+map保存降低复杂度
+标解
+链接：https://www.nowcoder.com/questionTerminal/345e2ed5f81d4017bbb8cc6055b0b711?toCommentId=6515061&ran=956
+来源：牛客网
+
+/**
+ * （1）首先对数组进行排序（从小到大）
+ * （2）依次取出第 i 个数（i从0开始），并且不重复的选取（跳过重复的数）
+ * （3）这样问题就转换为 2 个数求和的问题（可以用双指针解决方法）
+ *  2 数求和问题
+ *     （4）定义两个指针：左指针（left） 和 右指针（right）
+ *     （5）找出固定 left， 此时left所指的位置为数组中最小数，再找到两个数和 不大于 target 的最大 right 的位置
+ *     （6）调整 left 的位置（后移），求解和是否为 target O(n)
+ *     （7）时间复杂度：O(nlogn) + O(n)
+*/
+class Solution {
+public:
+    vector<vector<int> > threeSum(vector<int> &num) {
+        //数组排序（小-->大）
+        sort(num.begin(), num.end());
+        //结果集合
+        vector<vector<int>> ans;
+         
+        //先依次取出一个数，转换为 2 数求和问题
+        for (int i = 0; i < num.size(); i++){
+            if ( i == 0 || num[i] != num[i-1]){//防止重复
+                //定义左右指针
+                int left = i + 1, right = num.size() - 1;
+                // 2 数求和问题，固定left， 找出最大的right
+                while (left < right){
+                    //right 左移， 减小 num[right] 的值
+                    while (left < right && num[i] + num[left] + num[right] > 0) right --;
+                    if (left < right && num[i] + num[left] + num[right] == 0){
+                        //保存当前结果
+                        vector<int> temp(3);
+                        temp[0] = num[i];
+                        temp[1] = num[left];
+                        temp[2] = num[right];
+                        //保存到最终的结果中
+                        ans.push_back(temp);
+                        //右移 left （去除重复）
+                        while (left < right && num[left] == temp[1]) left ++;
+                    } else { // num[i] + num[left] + num[right] < 0的情况，left右移，增大num[left]的值
+                        left++;
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+};
+*/
