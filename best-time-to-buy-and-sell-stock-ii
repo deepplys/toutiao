@@ -1,0 +1,59 @@
+class Solution {
+public:
+    /**
+     * 
+     * @param prices int整型vector 
+     * @return int整型
+     */
+    int maxProfit(vector<int>& prices) {
+        // write code here
+        int len=prices.size();
+        if(len==0)
+        {
+            return 0;
+        }
+        int pr=0;
+        for(int i=1;i<len;i++)
+        {
+            if(prices[i]>prices[i-1])
+            {
+                pr+=prices[i]-prices[i-1];
+            }
+        }
+        return pr;
+    }
+};
+/*
+
+class Solution {
+public:
+    /**
+     * 
+     * @param prices int整型vector 
+     * @return int整型
+     */
+    int maxProfit(vector<int>& prices) {
+        // write code here
+        //dp[i][0] 持有当天股票当前持有的收益
+        //dp[i][1] 未持有当天股票当前持有的收益
+        //dp[i][0]=max(dp[i-1][0],dp[i-1][1]-price[j]);
+        //dp[i][1]=max(dp[i-1][1],dp[i-1][0]+price[j]);
+        int len=prices.size();
+        if(len==0)
+        {
+            return 0;
+        }
+        int pr=0;
+        int hold=-prices[0];
+        int nhold=0;
+        for(int i=0;i<len;i++)
+        {
+            int hold1=max(hold,nhold-prices[i]);
+            int nhold1=max(nhold,hold+prices[i]);
+            hold=hold1;
+            nhold=nhold1;
+        }
+        return nhold;
+    }
+};
+*/
