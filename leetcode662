@@ -1,0 +1,48 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int  widthOfBinaryTree(TreeNode* root) {
+        queue<tuple<TreeNode*,unsigned long long int,int> >s;
+        if(root==NULL)
+        {
+            return 0;
+        }
+        s.push(tuple(root,1,1) );
+        map<int,vector<unsigned long long int> > ans1;
+        ans1.clear();
+        while(!s.empty())
+        {
+            tuple<TreeNode*,unsigned long long int,int> x=s.front();
+            ans1[get<2>(x)].push_back(get<1>(x));
+            s.pop();
+            if(get<0>(x)->left!=NULL)
+            {
+                s.push(make_tuple(get<0>(x)->left,get<1>(x)*2ll,get<2>(x)+1));
+            }
+            if(get<0>(x)->right!=NULL)
+            {
+                s.push(make_tuple(get<0>(x)->right,get<1>(x)*2ll+1,get<2>(x)+1));
+            }
+        }
+        int ans=1;
+        for(auto i:ans1)
+        {
+            int len=i.second.size();
+            if(len>=1)
+            {
+                ans=max(ans,(int)(i.second[len-1]-i.second[0]+1));
+            }
+        }
+        return ans;
+    }
+};
