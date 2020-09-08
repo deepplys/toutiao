@@ -1,0 +1,63 @@
+//使用unordered_map保存迭代器，unordered_map的底层是hashmap，删除是O(1)；
+//使用list，链表保存对应的值。
+#include<unordered_map>
+using namespace std;
+class Solution {
+public:
+    /**
+     * lru design
+     * @param operators int整型vector<vector<>> the ops
+     * @param k int整型 the k
+     * @return int整型vector
+     */
+    list<pair<int,int> >lrulst;
+    unordered_map<int,list<pair<int,int> >::iterator >lruhash;
+    int cap;
+    vector<int> LRU(vector<vector<int> >& operators, int k) {
+        // write code here
+        cap=k;
+        int sz=operators.size();
+        vector<int>result;
+        result.reserve(sz);
+        if(k)
+        for(int i=0;i<sz;i++)
+        {
+            if(operators[i][0]==1)
+            {
+                set(operators[i][1],operators[i][2]);
+            }
+            else 
+            {
+                result.push_back(get(operators[i][1]));
+            }
+        }
+        return result;
+    }
+    void set(int key,int val)
+    {
+        auto iter=lruhash.find(key);
+        if(iter==lruhash.end())
+        {
+            if(cap==lrulst.size())
+            {
+                lruhash.erase(lrulst.back().first);
+                lrulst.pop_back();
+            }
+        }
+        else 
+        {
+            lrulst.erase(iter->second);
+        }
+        lrulst.push_front({key,val});
+        lruhash[key]=lrulst.begin();
+    }
+    int get(int key)
+    {
+        auto iter=lruhash.find(key);
+        if(iter==lruhash.end())return -1;
+        int val=iter->second->second;
+        lrulst.erase(iter->second);
+        lrulst.push_front(*iter->second);
+        return val;
+    }
+};
